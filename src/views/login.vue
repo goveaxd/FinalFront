@@ -28,6 +28,7 @@
                 <v-form>
                   <v-text-field
                     label="Correo Electronico"
+                    v-model="correo"
                     name="login"
                     prepend-icon=""
                     type="text"
@@ -35,6 +36,7 @@
 
                   <v-text-field
                     id="password"
+                    v-model="contraseña"
                     label="Contraseña"
                     name="password"
                     prepend-icon=""
@@ -44,7 +46,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary">Iniciar Sesión</v-btn>
+                <v-btn color="primary" @click="validar()">Iniciar Sesión</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -55,10 +57,33 @@
 </template>
 
 <script>
+  import {mapActions, mapMutations, mapState, mapGetters} from "vuex"
 
   export default {
     props: {
       source: String,
+    }, 
+    data(){
+      return{
+        correo:"",
+        contraseña:""
+      }
     },
+    computed:{
+      
+    },
+    methods:{
+      ...mapGetters("registros",["validLogin"]),
+      ...mapMutations("registros",["setLogin"]),
+      validar(){
+        let login={correo:this.correo,contraseña:this.contraseña}
+        this.setLogin(login)
+        if(this.validLogin(login)){
+          alert("Bienvenido")
+        }else {
+          alert("Credenciales no válidas")
+        }
+      }
+    }
   }
 </script>
